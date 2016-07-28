@@ -1,0 +1,330 @@
+#<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');?>
+# Permisions file for Webtransfer
+# list of site pages
+# @author ruslan007
+# @date 10.03.2015
+#
+# Правила создания:
+# 1) дети прав должны содержать всю родословную родителей через точку!    например admin.users.user.userId.contactsInfoGroup = главный родитель.группа.группа.страница.елемент на странице
+# 2) группы вспомогательные не обязательно должны входить в родословную
+# 3) основная группа обязательно входит в родословную
+
+#bb:
+#    type: "group"
+#    items:
+#        bb.myinfo: "Профиль"
+#        bb.projects: "Проекты"
+#        bb.project: "Проект"
+
+#bb.myinfo:
+#    type: "page"
+#    method: ["GET", "POST"]
+#    url: "myinfo"
+#
+#bb.projects:
+#    type: "page"
+#    method: ["GET", "POST"]
+#    url: "projects"
+#    items:
+#        bb.projects.createProj: "Создать проект"
+#        bb.projects.materials.edit: "Шаблон сметы"
+
+bb.projects.createProj:
+    type: "action"
+    ids:
+        id: ["create_proj", "createProject"]
+    method: ["GET", "POST"]
+    url: "projects/create"
+
+bb.projects.materials: #bb.projects.materials
+    type: "action"
+    type_id: "for_all"
+    ids:
+        id: ["materials_view"]
+    method: ["GET", "POST"]
+    url: "projects/view-materials"
+    items:
+        bb.projects.materials.properties: ''
+
+bb.projects.materials.properties: #bb.projects.materials
+    type: "action"
+    type_id: "for_all"
+    ids:
+        func: ["getMaterialProperty"]
+    method: "GET"
+    url: "projects/material-properties"
+
+bb.projects.materials.add:
+    type: "action"
+    type_id: "proj_id"
+    ids:
+        selector: ['[data-material="add-material-window"]']
+    method: "POST"
+    url: "projects/add-material"
+
+bb.projects.materials.edit: #bb.projects.materials.edit
+    type: "action"
+    ids:
+        id: ["title_material", "main_menu", "budget_category_edit_materials"]
+    method: ["GET", "POST"]
+    url: "projects/material"
+    items:
+        bb.projects.materials.edit.getSpec: ""
+        bb.projects.materials.edit.addRows: ""
+        bb.projects.materials.edit.changeRows: ""
+        bb.projects.materials.edit.deleteRows: ""
+
+bb.projects.materials.edit.getSpec: #bb.projects.materials.edit.getSpec
+    type: "action"
+    method: "POST"
+    url: "projects/get-spec"
+
+bb.projects.materials.edit.addRows: #bb.projects.materials.edit.addRows
+    type: "action"
+    method: "POST"
+    url: "projects/material-save"
+
+bb.projects.materials.edit.changeRows: #bb.projects.materials.edit.changeRows
+    type: "action"
+    method: "PUT"
+    url: "projects/material-save"
+
+bb.projects.materials.edit.deleteRows: #bb.projects.materials.edit.deleteRows
+    type: "action"
+    method: "DELETE"
+    url: "projects/material-save"
+bb.projects.subelementsItems: #bb.projects.subelementsItems
+    type: "action"
+    ids:
+        id: ["budget_category_edit_shema"]
+    method: ["GET", "POST"]
+    url: "projects/subelements"
+    items:
+        bb.projects.subelementsItems.edit: ""
+
+bb.projects.subelementsItems.edit: #bb.projects.subelementsItems.edit
+    type: "action"
+    method: ["GET", "POST"]
+    length: 24
+    url: "projects/edit-subelement"
+    items:
+        bb.projects.subelementsItems.edit.department: ""
+        bb.projects.subelementsItems.edit.material: ""
+
+bb.projects.subelementsItems.edit.department: #bb.projects.subelementsItems.edit.department
+    type: "action"
+    method: "PUT"
+    url: "projects/subelement-department"
+
+bb.projects.subelementsItems.edit.material: #bb.projects.subelementsItems.edit.material
+    type: "action"
+    method: ["GET", "POST"]
+    length: 28
+    url: "projects/material-subelement"
+
+bb.projects.shema.edit:
+    type: "action"
+    ids:
+        id: ["budget_category_edit_shema"]
+    method: ["GET", "POST"]
+    url: "projects/edit-shema"
+
+bb.projects.shema.edit.addRows:
+    type: "action"
+    method: "POST"
+    url: "projects/edit-shema-save"
+
+bb.projects.shema.edit.changeRows:
+    type: "action"
+    method: "PUT"
+    url: "projects/edit-shema-save"
+
+bb.projects.shema.edit.deleteRows:
+    type: "action"
+    method: "DELETE"
+    url: "projects/edit-shema-save"
+
+bb.projects.suppliers.edit:
+    type: "action"
+    type_id: "for_all"
+    ids:
+        id: ["suppliers_edit"]
+    method: ["GET", "POST"]
+    url: "projects/edit-suppliers"
+
+bb.projects.suppliers.edit.addRows:
+    type: "action"
+    type_id: "for_all"
+    method: "POST"
+    url: "projects/edit-suppliers-save"
+
+bb.projects.suppliers.edit.changeRows:
+    type: "action"
+    type_id: "for_all"
+    method: "PUT"
+    url: "projects/edit-suppliers-save"
+
+
+
+
+
+
+
+
+
+
+
+
+
+bb.project:
+    type: "page"
+    method: "GET"
+    type_id: "proj_id"
+    url: "project"
+    items:
+        bb.project.budget: "Смета"
+        bb.project.orders: "Заявки"
+        bb.project.money: "Средства"
+        bb.project.projSettings: "Настройки проекта"
+        bb.project.projTeam: "Команда проекта"
+
+bb.project.budget: #bb.project.budget
+    type: "action"
+    ids:
+        id: ["main_menu_budget"]
+    method: ["GET", "POST"]
+    type_id: "proj_id"
+    url: "project/budget"
+    items:
+        bb.project.budget.elements: ""
+        bb.project.budget.subelements: ""
+        bb.project.budget.codes: ""
+        bb.project.budget.veiwItemInOrders: ""
+        bb.project.budget.export: ""
+        bb.project.budget.edit: ""
+
+bb.project.budget.elements: #bb.project.budget.elements
+    type: "action"
+    method: "POST"
+    type_id: "proj_id"
+    url: "project/render-elements"
+
+bb.project.budget.subelements: #bb.project.budget.subelements
+    type: "action"
+    method: "POST"
+    type_id: "proj_id"
+    url: "project/render-subelements"
+
+bb.project.budget.codes: #bb.project.budget.codes
+    type: "action"
+    method: "POST"
+    type_id: "proj_id"
+    url: "project/render-codes"
+
+bb.project.budget.veiwItemInOrders: #bb.project.budget.veiwItemInOrders
+    type: "action"
+    method: "POST"
+    type_id: "proj_id"
+    url: "project/item-in-orders"
+
+bb.project.budget.export: #bb.project.budget.export
+    type: "action"
+    ids:
+        id: ["export_to_excel"]
+    method: "GET"
+    type_id: "proj_id"
+    url: "project/budget-excel"
+
+bb.project.budget.edit: #bb.project.budget.edit
+    desc: 'все чтоб редактировать смп'
+    type: "action"
+    method: "PUT"
+    type_id: "proj_id"
+    url: "project/budget-save"
+    items:
+        bb.project.budget.edit.addRows: ""
+        bb.project.budget.edit.deleteRows: ""
+
+bb.project.budget.edit.deleteRows: #bb.project.budget.edit.deleteRows
+    type: "action"
+    ids:
+        selector: ["#budet_table .delete_title_row"]
+    method: "DELETE"
+    type_id: "proj_id"
+    url: "project/budget-save"
+    items:
+        bb.project.budget.edit.deleteRows.deleteRowsPSO: ""
+
+bb.project.budget.edit.deleteRows.deleteRowsPSO: #bb.project.budget.edit.deleteRows.deleteRowsPSO
+    type: "action"
+    ids:
+        selector: ['#budet_table tr[data-row-parent-id^="01"] .delete_title_row', '#budet_table tr[data-row^="01"] .delete_title_row']
+    method: "DELETE"
+    type_id: "proj_id"
+    callback: 'checkDeleteRowPSO'
+    url: "project/budget-save"
+
+bb.project.budget.edit.addRows: #bb.project.budget.edit.addRows
+    type: "action"
+    ids:
+        id: ["budet_table .add_top_level", "budet_table .add_title_row"]
+    method: "POST"
+    type_id: "proj_id"
+    url: "project/budget-save"
+    items:
+        bb.project.budget.edit.addRows.showAtationAdd: ""
+        bb.project.budget.edit.addRows.materials: ""
+        bb.project.budget.edit.addRows.shemas: ""
+
+bb.project.budget.edit.addRows.showAtationAdd: #bb.project.budget.edit.addRows.showAtationAdd
+    type: "dialog"
+    ids:
+        func: ["showAtation"]
+
+bb.project.budget.edit.addRows.materials: #bb.project.budget.edit.addRows.materials
+    type: "action"
+    method: ["GET", "POST"]
+    type_id: "proj_id"
+    url: "project/budget-materials"
+    items:
+        bb.project.budget.edit.addRows.materials.price: ""
+
+bb.project.budget.edit.addRows.materials.price: #bb.project.budget.edit.addRows.materials.price
+    desc: 'перед тем как вставить берем цену'
+    type: "action"
+    method: ["POST"]
+    type_id: "proj_id"
+    url: "project/material-price"
+
+bb.project.budget.edit.addRows.shemas: #bb.project.budget.edit.addRows.shemas
+    type: "action"
+    method: ["GET", "POST"]
+    type_id: "proj_id"
+    url: "project/add-shema"
+    items:
+        bb.project.budget.edit.addRows.shemas.subelementMaterials: ""
+
+bb.project.budget.edit.addRows.shemas.subelementMaterials: #bb.project.budget.edit.addRows.shemas.subelementMaterials
+    type: "action"
+    method: "POST"
+    type_id: "proj_id"
+    url: "project/subelement-titles"
+
+
+bb.project.orders:
+    desc: 'общая таблица заявок'
+    type: "action"
+    ids:
+        id: ["main_menu_orders"]
+    method: ["GET", "POST"]
+    type_id: "proj_id"
+    url: "project/orders"
+    items:
+        bb.project.orders.viewOrders: ''
+        bb.project.orders.createOrders: ''
+        bb.project.orders.actionOrders: ''
+        bb.project.orders.signOrders: ''
+        bb.project.orders.waybils: ''
+        bb.project.orders.viewOrders.transactions: ''
+        bb.project.orders.export: ''
+# and OTHER permissions
