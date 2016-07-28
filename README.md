@@ -12,23 +12,23 @@ You can find it in app folder
 
 &lt;script&gt;     Управление доступом к ресурсам сайта
             var ids = <?=json_encode(Sourcemanager::getInstance()->getIds())?>;
-                                          Удаляем недоступные элементы страницы
+                                        // Удаляем недоступные элементы страницы
             removeIds();
-                                          Событие - после завершения ajax-запроса
+                                        // Событие - после завершения ajax-запроса
             $(document).ajaxComplete(function() {
                 removeIds();
             });
-                                          Получаем список id и удаляем их
+                                        // Получаем список id и удаляем их
             function removeIds() {
-                 console.log('permissions start...', performance.now() + performance.timing.navigationStart);
+//                console.log('permissions start...', performance.now() + performance.timing.navigationStart);
                 for (var i in ids){
-                                          Удаляем все кнопки по ID
+                                        // Удаляем все кнопки по ID
                     if(ids[i]["id"]){
                         ids[i]["id"].forEach(function(entry) {
                             $('#'+entry).remove();
                         });
                     }
-                                          Удаляем все кнопки по классу
+                                        // Удаляем все кнопки по классу
                     if(ids[i]["class"]){
                         ids[i]["class"].forEach(function(entry) {
                             $('.'+entry).remove();
@@ -40,7 +40,7 @@ You can find it in app folder
                             $(entry).remove();
                         });
                     }
-                                          Очищаем функции по переменным функций
+                                        // Очищаем функции по переменным функций
                     if(ids[i]["func"]){
                         for(var f in ids[i]["func"]){
                             window[ids[i]["func"][f]] = function(){return true;};
