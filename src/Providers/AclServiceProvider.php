@@ -10,6 +10,7 @@
 namespace Codegor\Acl\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Codegor\Acl\Acl;
 
 class AclServiceProvider extends ServiceProvider {
     /**
@@ -24,7 +25,7 @@ class AclServiceProvider extends ServiceProvider {
     public function register(){
 
 		$this->app->bind('codegor.acl', function (){		  
-		  return '';
+		  return new Acl();
 		});
 	  }
 }

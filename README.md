@@ -35,15 +35,22 @@ Laravel ACL adds role based permissions to built in Auth System of Laravel 5.6. 
 ```php
 'providers' => [
 
-'Illuminate\Foundation\Providers\ArtisanServiceProvider',
-'Illuminate\Auth\AuthServiceProvider',
+Illuminate\Auth\AuthServiceProvider::class,
+Illuminate\Broadcasting\BroadcastServiceProvider::class,
 ...
-'Codegor\Acl\Providers\AclServiceProvider',
+Codegor\Acl\Providers\AclServiceProvider::class,
 
 ],
+'aliases' => [
+
+'App' => Illuminate\Support\Facades\App::class,
+'Artisan' => Illuminate\Support\Facades\Artisan::class,
+...
+'Acl' => Codegor\Acl\Facades\Acl::class
+]
 ```
 
-3. Publish the package migrations to your application.
+3. Publish the package config to your application. if you want def migration has on migrations folder at root folder of packege.
 
 ```
 $ php artisan vendor:publish --provider="Codegor\Acl\Providers\AclServiceProvider"
@@ -70,3 +77,26 @@ class User extends Model
 use ... Acl;
 }
 ```
+
+6. Config your acl on config/acl.php (Detail on the comments at config/acl.php file).
+
+```php
+return [
+  'config' => [
+    'role_source' => 'config' // 'config' || 'DB'
+	...
+  ],
+  'permissions' => [
+      'admin' => (object) [
+        'role' => 'admin',
+        'type' => 'all allow', // or 'all deny'
+        'list' => [] // if in table - need in json formate
+      ],
+	  ...
+  ]
+];
+```
+
+That's All! 
+
+For creating permission list you can exec artisan command 'php artisan route:list' and you can see your rout table and col route name, this col you are need for list in the permission list (at middleware col you can see your acl middleware with others middleware). Acl works only if you aply 'acl' middleware.
