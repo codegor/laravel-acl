@@ -44,7 +44,7 @@
                 "Acl": "Codegor\\Acl\\Facades\\Acl"
             },
             "providers": [
-                "Codegor\\Acl\\Providers\\ServiceProvider"
+                "Codegor\\Acl\\Providers\\AclServiceProvider"
             ]
         }
     },
