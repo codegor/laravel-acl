@@ -59,3 +59,14 @@ protected $routeMiddleware = [
 
 ];
 ```
+
+5. Add the Acl trait to your `User` model.
+
+```php
+use Codegor\Acl\Traits\Acl;
+
+class User extends Model
+{
+use ... Acl;
+}
+```
