@@ -11,8 +11,7 @@ namespace Codegor\Acl\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class AclServiceProvider extends ServiceProvider{
-{
+class AclServiceProvider extends ServiceProvider {
     /**
      * {@inheritdoc}
      */
