@@ -30,6 +30,25 @@ Laravel ACL adds role based permissions to built in Auth System of Laravel 5.6. 
 },
 ```
 
+2. Add the package to your application service providers in `config/app.php`.
+
+```php
+'providers' => [
+
+'Illuminate\Foundation\Providers\ArtisanServiceProvider',
+'Illuminate\Auth\AuthServiceProvider',
+...
+'Codegor\Acl\Providers\AclServiceProvider',
+
+],
+```
+
+3. Publish the package migrations to your application.
+
+```
+$ php artisan vendor:publish --provider="Codegor\Acl\Providers\AclServiceProvider"
+```
+
 4. Add the middleware to your `app/Http/Kernel.php`.
 
 ```php
