@@ -1,53 +1,42 @@
-# LaravelACL
-Permissions menegment for big project bilded on laravel. Baseg on yaml permissions file and roles yaml files (users, orders or other substance).
 
-#Example
-You can find it in app folder
+# Codegor/laravel-acl
 
-Этот плагин позволяет не ставить в коде кучу if() для проверки права доступа.
-Проверка на серверной части основана на списке разрешенных урлов
-а на клиентской части выдается массив данных что нужно скрыть для каждой страницы, что клиенту не мозолило глаза то что ему не доступно
+[![Laravel](https://img.shields.io/badge/Laravel-~5.0-orange.svg?style=flat-square)](http://laravel.com)
+[![Source](http://img.shields.io/badge/source-kodeine/laravel--acl-blue.svg?style=flat-square)](https://github.com/codegor/laravel-acl/)
+[![Build Status](http://img.shields.io/travis/kodeine/laravel--acl/master.svg?style=flat-square)](https://travis-ci.org/codegor/laravel-acl)
+[![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
+[![Total Downloads](http://img.shields.io/packagist/dt/kodeine/laravel-acl.svg?style=flat-square)](https://packagist.org/packages/codegor/laravel-acl)
 
-##Пример для удаления закрытых елементов на клиентской части
+Laravel ACL adds role based permissions to built in Auth System of Laravel 5.6. ACL middleware protects routes.
 
-&lt;script&gt;     Управление доступом к ресурсам сайта
-            var ids = <?=json_encode(Sourcemanager::getInstance()->getIds())?>;
-                                        // Удаляем недоступные элементы страницы
-            removeIds();
-                                        // Событие - после завершения ajax-запроса
-            $(document).ajaxComplete(function() {
-                removeIds();
-            });
-                                        // Получаем список id и удаляем их
-            function removeIds() {
-//                console.log('permissions start...', performance.now() + performance.timing.navigationStart);
-                for (var i in ids){
-                                        // Удаляем все кнопки по ID
-                    if(ids[i]["id"]){
-                        ids[i]["id"].forEach(function(entry) {
-                            $('#'+entry).remove();
-                        });
-                    }
-                                        // Удаляем все кнопки по классу
-                    if(ids[i]["class"]){
-                        ids[i]["class"].forEach(function(entry) {
-                            $('.'+entry).remove();
-                        });
-                    }
-
-                    if(ids[i]["selector"]){
-                        ids[i]["selector"].forEach(function(entry) {
-                            $(entry).remove();
-                        });
-                    }
-                                        // Очищаем функции по переменным функций
-                    if(ids[i]["func"]){
-                        for(var f in ids[i]["func"]){
-                            window[ids[i]["func"][f]] = function(){return true;};
-                        }
-                    }
-                }
-            }
-&lt;/script&gt;
+# Table of Contents
+* [Requirements](#requirements)
+* [Getting Started](#getting-started)
 
 
+# <a name="requirements"></a>Requirements
+
+* This package requires PHP 7.0+
+
+# <a name="getting-started"></a>Getting Started
+
+1. Require the package in your `composer.json` and update your dependency with `composer update`:
+
+```
+"require": {
+...
+"codegor/laravel-acl": "~0.5",
+...
+},
+```
+
+4. Add the middleware to your `app/Http/Kernel.php`.
+
+```php
+protected $routeMiddleware = [
+
+....
+'acl' => 'Codegor\Acl\Http\Middleware\Acl',
+
+];
+```

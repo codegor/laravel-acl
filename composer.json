@@ -1,0 +1,54 @@
+{
+    "name": "codegor/laravel-acl",
+    "description": "Laravel ACL based on route table. Easy code, easy control",
+    "keywords": [
+        "ACL",
+        "Access Control List",
+        "codegor",
+        "permission",
+		"permissions",
+        "laravel",
+        "rights"
+    ],
+    "homepage": "https://github.com/codegor/laravel-acl",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Egor",
+            "email": "codeegor@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "laravel/framework": "~5.6.*",
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-4": {
+            "Codegor\\Acl\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-develop": "0.5-dev"
+        },
+		"laravel": {
+            "aliases": {
+                "Acl": "Codegor\\Acl\\Facades\\Acl"
+            },
+            "providers": [
+                "Codegor\\Acl\\Providers\\ServiceProvider"
+            ]
+        }
+    },
+	"config": {
+        "sort-packages": true
+    },
+}
