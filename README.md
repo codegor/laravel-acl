@@ -1,7 +1,7 @@
 
 # Codegor/laravel-acl
 
-[![Laravel](https://img.shields.io/badge/Laravel-~5.0-orange.svg?style=flat-square)](http://laravel.com)
+[![Laravel](https://img.shields.io/badge/Laravel-~5.6-orange.svg?style=flat-square)](http://laravel.com)
 [![Source](http://img.shields.io/badge/source-codegor/laravel--acl-blue.svg?style=flat-square)](https://github.com/codegor/laravel-acl/)
 [![Build Status](http://img.shields.io/travis/codegor/laravel--acl/master.svg?style=flat-square)](https://travis-ci.org/codegor/laravel-acl)
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
