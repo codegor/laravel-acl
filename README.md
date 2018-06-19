@@ -99,4 +99,4 @@ return [
 
 That's All! 
 
-For creating permission list you can exec artisan command 'php artisan route:list' and you can see your rout table and col route name, this col you are need for list in the permission list (at middleware col you can see your acl middleware with others middleware). Acl works only if you aply 'acl' middleware.
+For creating permission list you can exec artisan command 'php artisan route:list' and you can see your rout table and col route name, this col you are need for list in the permission list (at middleware col you can see your acl middleware with others middleware). Acl works only if you apply 'acl' middleware.
