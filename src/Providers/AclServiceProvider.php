@@ -24,8 +24,8 @@ class AclServiceProvider extends ServiceProvider {
     }
     public function register(){
 
-		$this->app->bind('codegor.acl', function (){		  
-		  return new Acl();
+		$this->app->bind('codegor.acl', function (){
+		  return new Acl(app('router'));
 		});
 	  }
 }

@@ -6,7 +6,7 @@
    * Time: 23:53
    */
   
-  namespace Codegor\Traits;
+  namespace Codegor\Acl\Traits;
   
   
   trait Acl {
