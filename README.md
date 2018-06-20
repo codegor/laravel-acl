@@ -7,7 +7,7 @@
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 [![Total Downloads](http://img.shields.io/packagist/dt/codegor/laravel-acl.svg?style=flat-square)](https://packagist.org/packages/codegor/laravel-acl)
 
-Laravel ACL adds role based permissions to built in Auth System of Laravel 5.6. ACL middleware protects routes.
+Laravel ACL adds role based permissions to built in Auth System of Laravel 5.6. ACL middleware protects routes. Useful when laravel use for server api(with resource controller)
 
 # Table of Contents
 * [Requirements](#requirements)
