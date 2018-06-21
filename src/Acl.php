@@ -90,6 +90,9 @@
         
         if ($route[0] == $item[0]) {
           if (isset($route[1], $item[1])) {
+            if('_menu' == $item[1])
+              $item[1] = 'index';
+            
             if ('*' == $item[1] || $route[1] == $item[1]) {
               $has = true;
               break;
