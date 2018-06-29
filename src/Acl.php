@@ -19,6 +19,7 @@
     protected $source = 'config';
     protected $db_table = 'permissions';
     protected $permissions = [];
+    protected $state = null;
     
     /**
      * The router instance.
@@ -44,6 +45,8 @@
       
       if ('config' == $this->source)
         $this->permissions = config('acl.permissions');
+  
+      $this->state = config('acl.state');
       
       $this->router = $router;
       $this->routes = $router->getRoutes();
@@ -51,7 +54,10 @@
     
     public function getPermissions(object $user) {
       $role = $this->getRole($user);
-      return $this->permissions[$role];
+      $res = $this->permissions[$role];
+      // TODO filter state with permitted resources
+      $res->state = $this->state;
+      return $res;
     }
     
     protected function getRole(object $user): string {
@@ -65,10 +71,15 @@
       return $role;
     }
     
-    public function canAccess(object $user, string $routName): bool {
+    public function canAccess(object $user, string $routName, array $params): bool {
       $role = $this->getRole($user);
-      
-      return $this->hasAccess($this->permissions[$role]->list, $this->permissions[$role]->type, $routName);
+      if(isset($this->permissions[$role]))
+        return $this->hasAccess($this->permissions[$role]->list, $this->permissions[$role]->type, $routName) &&
+          $this->isByStatusCanAccess($routName, $params, $role);
+      else {
+        echo 'permission does not created for role!';
+        return false;
+      }
       
     }
     
@@ -81,7 +92,7 @@
      * ]
      * ]
      */
-    private function hasAccess(array $list, string $type, $route): bool {
+    private function hasAccess(array $list, string $type, string $route): bool {
       $route = explode('.', $route);
       $has = false;
       
@@ -112,6 +123,74 @@
       
       return false;
       
+    }
+  
+    private function isByStatusCanAccess(string $route, array $params, string $role) {
+      $route = explode('.', $route);
+      $has = true;
+      
+      if(!isset($route[1])) // we work only with rosourece with action (resource.action)
+        return true;
+      if([] === $params) // checks if without params request
+        return true;
+      if(!isset($this->state[$route[0]])) // checks if for this resourses we have not rules for statuses
+        return true;
+    
+      $statuses = $this->state[$route[0]];
+      $work = function(array $resource_statuses) use ($route, $params, $role) : bool { //return false - deny access, return true - allow
+        $field = (isset($resource_statuses->_model_field)) ? $resource_statuses->_model_field : 'status';
+        $model = (isset($resource_statuses->_model)) ? $resource_statuses->_model : substr($route[0], 0, -1);
+        $statuses = (isset($resource_statuses->_statuses)) ? $resource_statuses->_statuses : $resource_statuses;
+        if(!isset($params[$model])) {
+          echo 'you have error in the status list, ACL cannot determinate model for resource';
+          return true; // maybe false, but true is swich off this function,
+        }
+        if(!isset($params[$model]->{$field})) {
+          echo 'you have error in the status list, ACL cannot determinate field of model for status (defoult name is "status")';
+          return true; // maybe false, but true is swich off this function,
+        }
+        $status = $params[$model]->{$field};
+
+        if(!isset($statuses[$status]))
+          return true;
+        
+        $list = $statuses[$status];
+        $type = (isset($list['_type'])) ? $list['_type'] : 'all allow';
+        $list = (isset($list['_list'])) ? $list['_list'] : $list;
+        
+        $filtered = [];
+        foreach ($list as $item) {
+          if(is_string($item))
+            $filtered[] = $item;
+          else if(is_array($item) && !in_array($role, $item[1])){
+            $filtered[] = $item[0];
+          }
+        }
+        unset($item);
+        
+        $list = $filtered;
+        $has = in_array($route[1], $list);
+
+        // if type 'all allow' (default) $list contein the list of deny point, if type 'all deny' - $list contein the list of allow point
+        if (('all deny' == $type && true == $has) || ('all allow' == $type && false == $has))
+          return true;
+  
+        return false;
+      };
+      if ([] === $statuses)
+        return true;
+      else
+        $status_simply = array_keys($statuses) !== range(0, count($statuses) - 1); // check is assoc array or not
+    
+      if($status_simply)
+        $has = $work($statuses);
+      else {
+        foreach ($statuses as $item)
+          $has = ($work($item)) ? $has : false;
+        unset($item);
+      }
+
+      return $has;
     }
     
     private function getPermissionsFromDb(string $role): void {
