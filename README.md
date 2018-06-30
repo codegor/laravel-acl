@@ -7,7 +7,9 @@
 [![License](http://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](https://tldrlegal.com/license/mit-license)
 [![Total Downloads](http://img.shields.io/packagist/dt/codegor/laravel-acl.svg?style=flat-square)](https://packagist.org/packages/codegor/laravel-acl)
 
-Laravel ACL adds role based permissions to built in Auth System of Laravel 5.6. ACL middleware protects routes. Useful when laravel use for server api(with resource controller)
+Laravel ACL adds role based permissions to built in Auth System of Laravel 5.6. ACL middleware protects routes. Useful when laravel use for server api(with resource controller). 
+Current ACL can control resource by its statuses (very usfull if you need control what actions need deny).
+If model has some status, for example, model has status 'active' and you want to deny action 'update' - with this ACL you can set this in the config at state field (see below).
 
 # Table of Contents
 * [Requirements](#requirements)
@@ -93,6 +95,17 @@ return [
         'list' => [] // if in table - need in json formate
       ],
 	  ...
+  ]
+  'state' => [
+    'admins' => [ // resourse
+      'active' =>[ // status #1
+        'activate'
+      ],
+      'inactive' =>[ // status #2
+        'update'
+      ],
+    ],
+    ...
   ]
 ];
 ```

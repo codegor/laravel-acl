@@ -1,6 +1,6 @@
 {
     "name": "codegor/laravel-acl",
-    "description": "Laravel ACL based on route table. Easy code, easy control",
+    "description": "Resource Laravel ACL and Resource status control based on route table. Easy code, easy control",
     "keywords": [
         "ACL",
         "Access Control List",
